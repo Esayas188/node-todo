@@ -1,0 +1,22 @@
+<html lang="en">
+
+<body>
+
+  <div class="blogs content">
+    <h2>All tasks</h2>
+
+    <% if (tasks.length > 0) { %>
+      <% tasks.forEach(task => { %>
+        <a class="single" href="/tasks/<%= task._id %>">
+          <h3 class="title"><%= tasks.name %></h3>
+          <p class="snippet"><%= tasks.discription %></p>
+        </a>
+      <% }) %>
+    <% } else { %>
+      <p>There are no task to display...</p>
+    <% } %>
+    
+  </div>
+
+</body>
+</html>
