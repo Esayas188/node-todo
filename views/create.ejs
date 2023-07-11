@@ -1,0 +1,21 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/styles.css">
+        <title> Todo | <%= title %></title>
+      </head>
+<body>
+
+  <div class="create-task content">
+    <form action="/tasks/create" method="POST">
+      <label for="name">Task name:</label>
+      <input type="name" id="name" name="name" required>
+      <label for="description">Blog body:</label>
+      <textarea id="description" name="description" required></textarea>
+      <button>Submit</button>
+    </form>
+  </div>
+
+</body>
+</html>

@@ -8,12 +8,13 @@
     <% if (tasks.length > 0) { %>
       <% tasks.forEach(task => { %>
         <a class="single" href="/tasks/<%= task._id %>">
-          <h3 class="title"><%= tasks.name %></h3>
-          <p class="snippet"><%= tasks.discription %></p>
+          <h3 class="title"><%= task.name %></h3>
+          <p class="snippet"><%= task.discription %></p>
         </a>
       <% }) %>
     <% } else { %>
       <p>There are no task to display...</p>
+      <a href="/tasks/create">add task here</a>
     <% } %>
     
   </div>
