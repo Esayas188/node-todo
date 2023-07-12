@@ -7,10 +7,14 @@
       max-width: 1200px;
     }
     p, h1, h2, h3, a, ul{
+      color: blue;
       margin: 0;
       padding: 0;
       text-decoration: none;
       color: #222;
+    }
+    a{
+      color:yellow;
     }
 
     /* nav & footer styles */

@@ -2,12 +2,7 @@ const { response } = require('express');
 const {Task,validateTask} = require('../models/task');
 
 
-// router.get('/create',taskcontroller.create_task_get);
-// router.put('/update',taskcontroller.update_task_get);
-//router.get('/',taskcontroller.list_task);
-// router.post('/',taskcontroller.create_task_post);
-//router.get('/:id',taskcontroller.detail_task);
-// router.get('/:id',taskcontroller.delete_task);
+
 
 const list_task = (req, res) =>{
     Task.find().sort({name: 1})
@@ -23,10 +18,11 @@ const detail_task = (req,res) =>{
     const id = req.params.id;
     Task.findById(id)
         .then(result =>{
-            res.render('details',{tasks:result, title:detail})
+            console.log('this tasks:',result);
+            res.render('details',{task:result, title:'detail'})
         })
         .catch(err =>{
-            console.log('error')
+            console.log('error is occurd by uknown thing')
             res.render('404',{title:'blog dont found'})
         });
     
@@ -59,7 +55,19 @@ const create_task_post = async(req,res) =>{
         return res.render('create',{error:'An error occurred. please try again later.'});
 
     }
+
     
+};
+
+const delete_task = async(req,res)=>{
+    id = req.params.id;
+    Task.findByIdAndRemove(id)
+        .then(result =>{
+            res.json({redirect:'/tasks'});
+        })
+        .catch(err =>{
+            console.log(err);
+        });
 };
 
 
@@ -70,6 +78,13 @@ module.exports = {
     detail_task,
     create_task_get,
     create_task_post,
+    delete_task,
     // update_task_get,
 
 }
+// router.get('/create',taskcontroller.create_task_get);
+// router.put('/update',taskcontroller.update_task_get);
+//router.get('/',taskcontroller.list_task);
+// router.post('/',taskcontroller.create_task_post);
+//router.get('/:id',taskcontroller.detail_task);
+// router.get('/:id',taskcontroller.delete_task);

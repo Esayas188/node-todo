@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="details content">
-        <h2><%= tasks.name %></h2>
-        <div class="content">
-          <p><%= tasks.discription %></p>
-        </div>
+<%- include("./partials/head.ejs") %>
 
+<body>
+<%- include("./partials/navbar.ejs") %>
+
+    <div class="details content">
+        <h2><%= task.name %></h2>
+        <div class="content">
+          <p><%= task.description %></p>
+        </div>
+        <a class="delete" data-doc="<%= task._id %>">
+          <img src="/trashcan.svg" alt="delete icon">
+        </a>
       </div>
+
+      <script>
+        const trashcan = document.querySelector('a.delete');
+    
+        trashcan.addEventListener('click', (e) => {
+          const endpoint = `/tasks/${trashcan.dataset.doc}`;
+    
+          fetch(endpoint, {
+            method: 'DELETE',
+          })
+          .then(response => response.json())
+          .then(data => window.location.href = data.redirect)
+          .catch(err => console.log(err));
+        });
+        
+      </script>      
 </body>
+<%- include("./partials/footer.ejs") %>
+
 </html>
