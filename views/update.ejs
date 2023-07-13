@@ -1,0 +1,56 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+<body>
+<%- include("./partials/navbar.ejs") %>
+<% console.log('this is task:',task) %>
+<div class="create-task content">
+  <form id="update-form" action="/tasks/<%=task._id%>" method="post">
+    <label for="name">Task name:</label>
+    <input type="text" id="name" name="name" value="<%= task.name%>" required>
+    <label for="description">Task body:</label>
+    <textarea id="description" name="description" required><%= task.description %></textarea>
+    <button type="submit" name="submit-btn">Submit</button>
+  </form>
+</div>
+  
+  <script>
+  const form = document.querySelector('#update-form');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const jsonData = {};
+    for (const [key, value] of formData.entries()) {
+      jsonData[key] = value;
+    }
+    fetch(form.action, {
+      method: 'PUT',
+      headers: {
+
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(jsonData)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+      window.location.href = data.redirect;
+
+    })
+    .then(data => {
+      console.log(data);
+      window.location.href = data.redirect;
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+  });
+
+  </script>
+</body>
+
+<%- include("./partials/footer.ejs") %>
+
+</html>

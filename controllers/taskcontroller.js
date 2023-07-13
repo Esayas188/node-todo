@@ -18,12 +18,12 @@ const detail_task = (req,res) =>{
     const id = req.params.id;
     Task.findById(id)
         .then(result =>{
-            console.log('this tasks:',result);
+
             res.render('details',{task:result, title:'detail'})
         })
         .catch(err =>{
-            console.log('error is occurd by uknown thing')
-            res.render('404',{title:'blog dont found'})
+
+            res.render('404',{title:'task dont found'})
         });
     
 }
@@ -70,6 +70,44 @@ const delete_task = async(req,res)=>{
         });
 };
 
+const update_task_get = (req,res)=>{
+    
+    const id = req.params.id;
+    Task.findById(id)
+        .then(result =>{
+            res.render('update',{task:result})
+        })
+        .catch(err =>{
+            console.log('error is occurd by uknown thing')
+            res.render('404',{title:'task dont found'})
+        });
+}
+
+
+
+const update_task_post = async (req, res) => {
+    console.log("this is befor validation:",req.body);
+
+    const { error, value } = validateTask(req.body);
+    if (error) {
+
+        console.log("this is about error happend:",req.body);
+        const task = { name: req.body.name, description: req.body.description };
+        return res.status(400).render('update', { error: error.details[0].message, task: task });
+    }
+    try {
+        console.log("this is lookslike valid:",req.body);
+
+        const task = await Task.findByIdAndUpdate(req.params.id, { name: req.body.name, description: req.body.description }, { new: true })
+        if (!task) return res.status(404).render('update', { error: 'something wrong try again later', task: task });
+        res.json({redirect:'/tasks'});
+
+    } catch (err) {
+      console.log('error is occurd by uknown thing')
+      res.status(404).render('404', { title: 'task dont found' })
+    }
+  }
+
 
 
 
@@ -79,12 +117,7 @@ module.exports = {
     create_task_get,
     create_task_post,
     delete_task,
-    // update_task_get,
+    update_task_get,
+    update_task_post,
 
 }
-// router.get('/create',taskcontroller.create_task_get);
-// router.put('/update',taskcontroller.update_task_get);
-//router.get('/',taskcontroller.list_task);
-// router.post('/',taskcontroller.create_task_post);
-//router.get('/:id',taskcontroller.detail_task);
-// router.get('/:id',taskcontroller.delete_task);

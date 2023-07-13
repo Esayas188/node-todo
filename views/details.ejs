@@ -10,26 +10,30 @@
         <div class="content">
           <p><%= task.description %></p>
         </div>
+
+        <a class="update" href="/tasks/<%=task.id%>/update">
+          <img src="/edit.png" alt="edit icon" class="icon-small">
+        </a>
         <a class="delete" data-doc="<%= task._id %>">
           <img src="/trashcan.svg" alt="delete icon">
         </a>
-      </div>
+    </div>
 
-      <script>
-        const trashcan = document.querySelector('a.delete');
-    
-        trashcan.addEventListener('click', (e) => {
-          const endpoint = `/tasks/${trashcan.dataset.doc}`;
-    
-          fetch(endpoint, {
-            method: 'DELETE',
-          })
-          .then(response => response.json())
-          .then(data => window.location.href = data.redirect)
-          .catch(err => console.log(err));
-        });
-        
-      </script>      
+    <script>
+      const trashcan = document.querySelector('a.delete');
+  
+      trashcan.addEventListener('click', (e) => {
+        const endpoint = `/tasks/${trashcan.dataset.doc}`;
+  
+        fetch(endpoint, {
+          method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => window.location.href = data.redirect)
+        .catch(err => console.log(err));
+      });
+      
+    </script>      
 </body>
 <%- include("./partials/footer.ejs") %>
 

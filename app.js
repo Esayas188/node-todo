@@ -2,21 +2,31 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Routes = require('./routes/taskRouts');
-
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 
 
 
 const app = express();
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static('public'));
 app.use(morgan('dev'));
 
+app.use((req, res, next) => {
+  console.log('_method:', req.body._method);
+  next();
+});
 app.use((req,res, next)=>{
   res.locals.path = req.path;
   next();
 });
-
+// Handle errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render('error', { message: err.message });
+});
 
 
 mongoose.connect('mongodb://localhost:27017/todo', { useNewUrlParser: true, useUnifiedTopology: true })
