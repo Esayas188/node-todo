@@ -75,12 +75,13 @@ const update_task_get = (req,res)=>{
     const id = req.params.id;
     Task.findById(id)
         .then(result =>{
-            res.render('update',{task:result})
+            res.render('update',{task:result,error:null})
         })
         .catch(err =>{
             console.log('error is occurd by uknown thing')
-            res.render('404',{title:'task dont found'})
+            res.render('404',{title:'task dont found', error: err.message })
         });
+
 }
 
 

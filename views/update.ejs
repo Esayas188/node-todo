@@ -3,7 +3,9 @@
 
 <body>
 <%- include("./partials/navbar.ejs") %>
-<% console.log('this is task:',task) %>
+<% if (error) {%>
+  <h1><%= error %></h1>
+  <% } %>
 <div class="create-task content">
   <form id="update-form" action="/tasks/<%=task._id%>" method="post">
     <label for="name">Task name:</label>
